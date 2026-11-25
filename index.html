@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco de Questões — Concurso de Pessoas e de Crimes</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f4f1eb;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#222;line-height:1.55;padding:24px 16px 60px}
+.wrap{max-width:860px;margin:0 auto}
+.badge{display:inline-block;background:#1a2a4a;color:#fff;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:8px 14px;border-radius:8px;margin-bottom:14px}
+h1{font-size:26px;color:#1a2a4a;margin-bottom:4px}
+.sub{color:#6b6b6b;font-size:14px;margin-bottom:20px}
+.stats{background:#fff;border-radius:14px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.srow{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:12px}
+.st{display:flex;flex-direction:column}
+.st b{font-size:24px;color:#1a2a4a}
+.st.ok b{color:#2e7d32}.st.no b{color:#c62828}
+.st span{font-size:12px;color:#777;text-transform:uppercase;letter-spacing:.04em}
+.bar{height:8px;background:#e8e4da;border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#1a2a4a;transition:width .3s}
+.ptxt{font-size:12px;color:#777;margin-top:6px}
+.nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.nav button{width:38px;height:38px;border:1px solid #ddd6c8;background:#ece8df;border-radius:8px;font-weight:700;color:#555;cursor:pointer;font-size:13px}
+.nav button.act{background:#1a2a4a;color:#fff;border-color:#1a2a4a}
+.nav button.ok{background:#dff0e0;border-color:#9cc9a0;color:#2e7d32}
+.nav button.no{background:#fbe1e1;border-color:#e6a3a3;color:#c62828}
+.nav button.act.ok,.nav button.act.no{outline:3px solid #1a2a4a;outline-offset:1px}
+.qc{display:none;background:#fff;border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.qc.vis{display:block}
+.qh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.qtag{background:#dfe9f7;color:#1a2a4a;font-weight:700;font-size:12px;padding:4px 10px;border-radius:6px}
+.qex{color:#777;font-size:12.5px}
+.qt{font-weight:700;color:#1a2a4a;font-size:15px;margin:8px 0 10px}
+.en{background:#f7f5f0;border-left:4px solid #1a2a4a;padding:12px 14px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:15px}
+.cm{font-weight:600;margin-bottom:12px;font-size:15px}
+.alt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:1.5px solid #e2ddd2;border-radius:10px;padding:11px 14px;margin-bottom:8px;cursor:pointer;font-size:14.5px;color:#222;font-family:inherit;line-height:1.5}
+.alt:hover:not(:disabled){border-color:#1a2a4a}
+.alt .lt{flex:0 0 28px;height:28px;border-radius:50%;background:#ece8df;display:flex;align-items:center;justify-content:center;font-weight:700;color:#1a2a4a}
+.alt:disabled{cursor:default}
+.alt.cor{background:#e5f4e6;border-color:#66bb6a}.alt.cor .lt{background:#2e7d32;color:#fff}
+.alt.err{background:#fde8e8;border-color:#ef9a9a}.alt.err .lt{background:#c62828;color:#fff}
+.fb{display:none;margin-top:12px;padding:12px 14px;border-radius:10px;font-size:14px}
+.fb.ok{display:block;background:#e5f4e6;color:#1b5e20}
+.fb.no{display:block;background:#fde8e8;color:#8e1c1c}
+.acts{display:none;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.acts.on{display:flex}
+.b1,.b2,.b3{font-family:inherit;font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:8px;cursor:pointer;background:#fff}
+.b1{border:1.5px solid #1a2a4a;color:#1a2a4a}
+.b2{border:1.5px solid #d48a1a;color:#a8650a}
+.b3{border:1.5px solid #bbb;color:#555}
+.gab{margin-left:auto;font-size:13px;color:#555}
+.gab b{color:#1a2a4a;font-size:15px}
+.fu{display:none;margin-top:12px;background:#d8e2f0;border-radius:10px;padding:12px 14px;font-size:14px}
+.ca{display:none;margin-top:12px;background:#fff8e6;border-left:4px solid #e0a12b;border-radius:0 10px 10px 0;padding:12px 14px;font-size:14px}
+.fu.on,.ca.on{display:block}
+.fu h4{color:#1a2a4a;margin-bottom:6px;font-size:14px}
+.ca h4{color:#a8650a;margin-bottom:6px;font-size:14px}
+.pager{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.pager button{font-family:inherit;background:#1a2a4a;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer;font-size:14px}
+.pager button:disabled{background:#b9b4aa;cursor:default}
+.pager span{color:#666;font-size:14px}
+.foot{text-align:center;color:#999;font-size:12px;margin-top:28px}
+@media(max-width:560px){h1{font-size:21px}.qc{padding:16px}.gab{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="badge">📌 Banco de Questões OAB · Direito Penal</div>
+<h1>Concurso de Pessoas e Concurso de Crimes</h1>
+<p class="sub">CP, arts. 29 a 31 e 69 a 76 · Prof. Caqui · Master5 OAB</p>
+<div class="stats">
+ <div class="srow">
+  <div class="st"><b id="sR">0</b><span>Respondidas</span></div>
+  <div class="st ok"><b id="sA">0</b><span>Acertos</span></div>
+  <div class="st no"><b id="sE">0</b><span>Erros</span></div>
+ </div>
+ <div class="bar"><i id="pb"></i></div>
+ <div class="ptxt" id="pt"></div>
+</div>
+<div class="nav" id="nv"></div>
+<div id="qs"></div>
+<div class="pager">
+ <button id="bp" onclick="go(cur-1)">← Anterior</button>
+ <span id="pi"></span>
+ <button id="bn" onclick="go(cur+1)">Próxima →</button>
+</div>
+<p class="foot">Material elaborado por Sabrine Arantes @sabrinedireito · Uso pessoal · Proibida a reprodução e o repasse · Lei 9.610/98</p>
+</div>
+<script>
+const QUESTOES = [
+ {
+  "num": 1,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Teoria adotada",
+  "enunciado": "André e Bruno combinaram furtar uma loja. André vigiou a rua enquanto Bruno arrombou a porta e subtraiu os bens.",
+  "comando": "Segundo o Código Penal, assinale a afirmativa correta.",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "Ambos respondem pelo mesmo crime, cada um na medida de sua culpabilidade.",
+   "B": "André responde por crime diverso, por não ter subtraído os bens.",
+   "C": "André responde por favorecimento real.",
+   "D": "Só Bruno responde, pois André não praticou o verbo do tipo."
+  },
+  "feedbacks": {
+   "A": "Correto: art. 29, caput (teoria monista temperada).",
+   "B": "Errado: a regra é a teoria monista.",
+   "C": "Errado: o favorecimento é posterior ao crime e sem ajuste prévio.",
+   "D": "Errado: o partícipe também responde."
+  },
+  "fundamento": "CP, art. 29: quem, de qualquer modo, concorre para o crime incide nas penas a este cominadas, na medida de sua culpabilidade.",
+  "caqui": "Teoria monista: um crime, vários agentes — cada um com sua pena."
+ },
+ {
+  "num": 2,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Exceção pluralista — aborto",
+  "enunciado": "Juliana consentiu que um médico realizasse aborto nela, fora das hipóteses legais.",
+  "comando": "Assinale a afirmativa correta.",
+  "gabarito": "C",
+  "alternativas": {
+   "A": "Ambos respondem pelo art. 126.",
+   "B": "Só o médico responde, pois a gestante é vítima.",
+   "C": "Juliana responde pelo art. 124 e o médico pelo art. 126, em exceção pluralista à teoria monista.",
+   "D": "Ambos respondem pelo art. 124, em concurso de pessoas."
+  },
+  "feedbacks": {
+   "A": "Errado: o art. 126 é para o terceiro.",
+   "B": "Errado: a gestante que consente também responde.",
+   "C": "Correto: arts. 124 e 126 do CP.",
+   "D": "Errado: a lei separa os crimes."
+  },
+  "fundamento": "CP, art. 124: provocar aborto em si mesma ou consentir que outrem lho provoque. Art. 126: provocar aborto com o consentimento da gestante.",
+  "caqui": "Quando a lei cria um crime para cada lado, a teoria monista cede: é a exceção pluralista."
+ },
+ {
+  "num": 3,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Exceção pluralista — corrupção",
+  "enunciado": "Um empresário ofereceu R$ 50.000,00 a um fiscal para não ser autuado, e o fiscal aceitou e recebeu o valor.",
+  "comando": "Os dois respondem, respectivamente, por:",
+  "gabarito": "C",
+  "alternativas": {
+   "A": "corrupção passiva, em concurso de pessoas.",
+   "B": "corrupção ativa, em concurso de pessoas.",
+   "C": "corrupção ativa (art. 333) e corrupção passiva (art. 317).",
+   "D": "concussão e corrupção ativa."
+  },
+  "feedbacks": {
+   "A": "Errado: há crimes distintos para cada um.",
+   "B": "Errado: o funcionário responde por corrupção passiva.",
+   "C": "Correto: exceção pluralista.",
+   "D": "Errado: concussão exige exigência do funcionário."
+  },
+  "fundamento": "CP, art. 317: solicitar ou receber vantagem indevida (corrupção passiva). Art. 333: oferecer ou prometer vantagem indevida a funcionário público (corrupção ativa).",
+  "caqui": "Quem oferece (particular) = ativa; quem recebe (funcionário) = passiva."
+ },
+ {
+  "num": 4,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Liame subjetivo",
+  "enunciado": "Sabendo que um ladrão planejava furtar a casa do patrão, a empregada, sem combinar nada com ele, deixou a porta destrancada para facilitar o furto, que se consumou.",
+  "comando": "Assinale a afirmativa correta.",
+  "gabarito": "D",
+  "alternativas": {
+   "A": "A empregada responde apenas por omissão de socorro.",
+   "B": "Não há concurso de pessoas, pois não houve acordo prévio.",
+   "C": "Há autoria colateral.",
+   "D": "Há concurso de pessoas, pois o liame subjetivo dispensa acordo prévio, bastando a adesão consciente à conduta do outro."
+  },
+  "feedbacks": {
+   "A": "Errado: ela concorreu para o furto.",
+   "B": "Errado: não se exige ajuste prévio.",
+   "C": "Errado: na autoria colateral não há liame subjetivo.",
+   "D": "Correto: o vínculo psicológico pode ser unilateral."
+  },
+  "fundamento": "Requisitos do concurso de pessoas: pluralidade de agentes e condutas, relevância causal, liame subjetivo, identidade de infração e existência de fato punível. O liame subjetivo não exige acordo prévio (pactum sceleris).",
+  "caqui": "Basta \"querer ajudar\" o crime do outro. Não precisa de reunião nem combinado."
+ },
+ {
+  "num": 5,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Autoria colateral",
+  "enunciado": "Sem saber um do outro, Paulo e Rui atiraram ao mesmo tempo em Sílvio, com intenção de matá-lo. A perícia comprovou que apenas o tiro de Paulo causou a morte.",
+  "comando": "Assinale a afirmativa correta.",
+  "gabarito": "C",
+  "alternativas": {
+   "A": "Ambos respondem por homicídio consumado, em concurso de pessoas.",
+   "B": "Ambos respondem por tentativa.",
+   "C": "Paulo responde por homicídio consumado e Rui por tentativa de homicídio.",
+   "D": "Rui não responde por nada."
+  },
+  "feedbacks": {
+   "A": "Errado: não há liame subjetivo; é autoria colateral.",
+   "B": "Errado: sabe-se quem causou a morte.",
+   "C": "Correto: cada um responde pelo que causou.",
+   "D": "Errado: Rui tentou matar."
+  },
+  "fundamento": "Autoria colateral: dois ou mais agentes, sem liame subjetivo, dirigem condutas ao mesmo resultado. Cada um responde pelo seu ato. Se não se souber quem causou o resultado (autoria incerta), todos respondem por tentativa.",
+  "caqui": "Sem vínculo, não há \"time\": cada um responde pelo seu próprio tiro."
+ },
+ {
+  "num": 6,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Autoria incerta",
+  "enunciado": "Na mesma situação de autoria colateral, a perícia não conseguiu apurar qual dos dois tiros matou a vítima.",
+  "comando": "Os agentes responderão por:",
+  "gabarito": "B",
+  "alternativas": {
+   "A": "homicídio culposo.",
+   "B": "tentativa de homicídio, ambos.",
+   "C": "homicídio consumado, ambos.",
+   "D": "nada, por falta de prova."
+  },
+  "feedbacks": {
+   "A": "Errado: houve dolo.",
+   "B": "Correto: in dubio pro reo.",
+   "C": "Errado: não se pode imputar a morte sem prova.",
+   "D": "Errado: a tentativa está provada para ambos."
+  },
+  "fundamento": "Autoria incerta: em autoria colateral, não se sabendo quem causou o resultado, aplica-se o in dubio pro reo, e todos respondem por tentativa.",
+  "caqui": "Na dúvida sobre quem matou, o certo é que os dois tentaram."
+ },
+ {
+  "num": 7,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Domínio do fato — autor intelectual",
+  "enunciado": "O líder de um grupo planejou detalhadamente um roubo a banco, distribuiu as tarefas e deu as ordens por telefone, sem ir ao local.",
+  "comando": "Segundo a teoria do domínio do fato, o líder é:",
+  "gabarito": "D",
+  "alternativas": {
+   "A": "partícipe, por não ter executado o verbo do tipo.",
+   "B": "responsável apenas por associação criminosa.",
+   "C": "impunível, por não ter estado no local.",
+   "D": "autor, pois tem o controle final do fato (autor intelectual)."
+  },
+  "feedbacks": {
+   "A": "Errado: pela teoria do domínio do fato, quem comanda é autor.",
+   "B": "Errado: responde pelo roubo (e eventualmente pela associação).",
+   "C": "Errado: a presença física não é exigida.",
+   "D": "Correto: o domínio do fato complementa a teoria restritiva."
+  },
+  "fundamento": "Teoria do domínio do fato: é autor quem tem o controle final do fato, decidindo se, quando e como ele ocorre. CP, art. 62, I: agrava-se a pena de quem promove ou organiza a cooperação no crime ou dirige a atividade dos demais.",
+  "caqui": "Quem \"segura o controle remoto\" do crime é autor, mesmo sem apertar o gatilho."
+ },
+ {
+  "num": 8,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Autoria mediata",
+  "enunciado": "Carlos entregou a uma criança de 10 anos uma arma, dizendo ser de brinquedo, e pediu que \"assustasse\" o vizinho. A criança disparou e matou o vizinho.",
+  "comando": "Assinale a afirmativa correta.",
+  "gabarito": "C",
+  "alternativas": {
+   "A": "Carlos é partícipe por instigação.",
+   "B": "Ninguém responde, pois a criança é inimputável.",
+   "C": "Carlos é autor mediato, pois usou a criança como instrumento.",
+   "D": "Há concurso de pessoas entre Carlos e a criança."
+  },
+  "feedbacks": {
+   "A": "Errado: Carlos domina o fato por meio do instrumento.",
+   "B": "Errado: Carlos responde como autor mediato.",
+   "C": "Correto: autoria mediata.",
+   "D": "Errado: não há concurso de pessoas com o instrumento."
+  },
+  "fundamento": "Autoria mediata: o agente usa outra pessoa, sem culpabilidade ou em erro, como instrumento para praticar o crime (ex.: inimputável; CP, art. 20, § 2º — erro determinado por terceiro; art. 22 — coação irresistível e obediência hierárquica).",
+  "caqui": "A criança foi a \"ferramenta\". Quem responde é quem a usou."
+ },
+ {
+  "num": 9,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Participação moral",
+  "enunciado": "Rita convenceu seu amigo Léo, que nunca tinha pensado nisso, a furtar o carro do ex-namorado dela. Léo furtou o carro.",
+  "comando": "A conduta de Rita é:",
+  "gabarito": "C",
+  "alternativas": {
+   "A": "instigação, pois reforçou uma ideia existente.",
+   "B": "impunível, por não ter auxiliado materialmente.",
+   "C": "induzimento (participação moral), pois fez nascer a ideia criminosa.",
+   "D": "coautoria."
+  },
+  "feedbacks": {
+   "A": "Errado: instigar é reforçar ideia já existente.",
+   "B": "Errado: a participação moral é punível.",
+   "C": "Correto: induzir é criar a ideia.",
+   "D": "Errado: Rita não executou o verbo."
+  },
+  "fundamento": "Participação moral: induzimento (fazer nascer a ideia criminosa) ou instigação (reforçar ideia já existente). Participação material: auxílio (fornecer meios).",
+  "caqui": "Induzir = plantar a semente. Instigar = regar a semente que já existe."
+ },
+ {
+  "num": 10,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Acessoriedade limitada",
+  "enunciado": "Marcos emprestou uma faca a Pedro, sabendo que ele a usaria para ferir Tiago. Pedro feriu Tiago, mas agiu em legítima defesa contra agressão injusta e atual de Tiago.",
+  "comando": "Segundo a teoria da acessoriedade limitada, Marcos:",
+  "gabarito": "D",
+  "alternativas": {
+   "A": "responde, pois basta que o fato seja típico.",
+   "B": "responde por tentativa de lesão corporal.",
+   "C": "responde por lesão corporal, pois quis colaborar.",
+   "D": "não responde, pois o fato principal é lícito."
+  },
+  "feedbacks": {
+   "A": "Errado: isso seria a acessoriedade mínima.",
+   "B": "Errado: não há tentativa punível.",
+   "C": "Errado: o partícipe só é punido se o fato do autor for típico e ilícito.",
+   "D": "Correto: acessoriedade limitada."
+  },
+  "fundamento": "Teoria da acessoriedade limitada (majoritária): para punir o partícipe, basta que o autor pratique fato típico e ilícito, não sendo necessária a culpabilidade.",
+  "caqui": "A participação \"pega carona\" no fato principal. Se o fato principal é lícito, não há carona."
+ },
+ {
+  "num": 11,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Participação de menor importância",
+  "enunciado": "Laura apenas emprestou sua bolsa para que o comparsa escondesse os objetos furtados numa loja. Sua contribuição foi considerada de pouca relevância.",
+  "comando": "Assinale a afirmativa correta.",
+  "gabarito": "B",
+  "alternativas": {
+   "A": "Laura é isenta de pena.",
+   "B": "A pena de Laura pode ser diminuída de 1/6 a 1/3, por participação de menor importância.",
+   "C": "Laura é coautora e não tem direito a diminuição.",
+   "D": "A pena de Laura será diminuída de 1/3 a 2/3."
+  },
+  "feedbacks": {
+   "A": "Errado: há apenas diminuição.",
+   "B": "Correto: art. 29, § 1º.",
+   "C": "Errado: ela não executou o verbo; é partícipe.",
+   "D": "Errado: a fração é de 1/6 a 1/3."
+  },
+  "fundamento": "CP, art. 29, § 1º: se a participação for de menor importância, a pena pode ser diminuída de um sexto a um terço.",
+  "caqui": "Participação pequena, pena menor: de 1/6 a 1/3. Só para partícipe."
+ },
+ {
+  "num": 12,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Menor importância e coautor",
+  "enunciado": "Felipe e Guto assaltaram juntos uma farmácia: Felipe apontou a arma para a atendente e Guto pegou o dinheiro do caixa.",
+  "comando": "Guto pode receber a diminuição da participação de menor importância?",
+  "gabarito": "B",
+  "alternativas": {
+   "A": "Sim, pois não usou a arma.",
+   "B": "Não, pois é coautor; a diminuição do art. 29, § 1º, é exclusiva do partícipe.",
+   "C": "Sim, de 1/6 a 1/3.",
+   "D": "Sim, desde que confesse."
+  },
+  "feedbacks": {
+   "A": "Errado: Guto executou o núcleo do tipo (subtrair).",
+   "B": "Correto: coautor não tem participação de menor importância.",
+   "C": "Errado: a causa não se aplica ao coautor.",
+   "D": "Errado: a confissão é atenuante, não causa de diminuição do § 1º."
+  },
+  "fundamento": "CP, art. 29, § 1º: a diminuição se refere à participação de menor importância, figura própria do partícipe, não do coautor, que realiza o verbo do tipo.",
+  "caqui": "Quem divide a execução está \"em campo\": não é coadjuvante."
+ },
+ {
+  "num": 13,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Cooperação dolosamente distinta",
+  "enunciado": "Henrique e Igor combinaram furtar uma casa que achavam vazia. Henrique ficou do lado de fora. Igor encontrou o morador e o agrediu para levar os bens. Era previsível que houvesse alguém na casa.",
+  "comando": "Henrique responde por:",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "furto, com a pena aumentada até metade, por ser previsível o resultado mais grave.",
+   "B": "roubo, como Igor.",
+   "C": "furto, sem qualquer aumento.",
+   "D": "roubo, com diminuição de 1/6 a 1/3."
+  },
+  "feedbacks": {
+   "A": "Correto: art. 29, § 2º.",
+   "B": "Errado: Henrique quis participar de crime menos grave.",
+   "C": "Errado: o resultado mais grave era previsível.",
+   "D": "Errado: não responde pelo roubo."
+  },
+  "fundamento": "CP, art. 29, § 2º: se algum dos concorrentes quis participar de crime menos grave, ser-lhe-á aplicada a pena deste; essa pena será aumentada até metade, na hipótese de ter sido previsível o resultado mais grave.",
+  "caqui": "Cada um responde pelo crime que quis. Mas, se dava para prever o pior, a pena aumenta."
+ },
+ {
+  "num": 14,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Comunicabilidade — elementar",
+  "enunciado": "Valter, servidor público, e seu primo Wagner, particular que sabia da condição do primo, desviaram juntos dinheiro da repartição.",
+  "comando": "Wagner responde por:",
+  "gabarito": "D",
+  "alternativas": {
+   "A": "apropriação indébita.",
+   "B": "furto, pois não é funcionário público.",
+   "C": "favorecimento real.",
+   "D": "peculato, pois a condição de funcionário público é elementar e se comunica ao coautor que a conhece."
+  },
+  "feedbacks": {
+   "A": "Errado: aplica-se o peculato.",
+   "B": "Errado: as elementares se comunicam.",
+   "C": "Errado: Wagner participou do desvio.",
+   "D": "Correto: art. 30."
+  },
+  "fundamento": "CP, art. 30: não se comunicam as circunstâncias e as condições de caráter pessoal, salvo quando elementares do crime. Art. 312: peculato.",
+  "caqui": "Elementar \"contamina\" quem sabe dela: o particular que sabe que age com o funcionário responde por peculato."
+ },
+ {
+  "num": 15,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Comunicabilidade — circunstância pessoal",
+  "enunciado": "Dois agentes praticaram juntos um furto. Um deles era reincidente; o outro, primário.",
+  "comando": "A agravante da reincidência:",
+  "gabarito": "B",
+  "alternativas": {
+   "A": "comunica-se se o primário soubesse da reincidência.",
+   "B": "não se comunica ao primário, por ser circunstância de caráter pessoal que não é elementar.",
+   "C": "não se aplica a nenhum, por haver concurso de pessoas.",
+   "D": "comunica-se a ambos, por terem agido juntos."
+  },
+  "feedbacks": {
+   "A": "Errado: o conhecimento só importa para elementares e circunstâncias objetivas.",
+   "B": "Correto: art. 30.",
+   "C": "Errado: aplica-se ao reincidente.",
+   "D": "Errado: circunstância pessoal não se comunica."
+  },
+  "fundamento": "CP, art. 30: não se comunicam as circunstâncias e as condições de caráter pessoal, salvo quando elementares do crime.",
+  "caqui": "A ficha criminal é pessoal: não passa para o comparsa."
+ },
+ {
+  "num": 16,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Infanticídio e terceiro",
+  "enunciado": "Logo após o parto, sob influência do estado puerperal, Sônia matou o filho recém-nascido com a ajuda de sua mãe, que sabia da situação.",
+  "comando": "Segundo a doutrina majoritária, a mãe de Sônia responde por:",
+  "gabarito": "C",
+  "alternativas": {
+   "A": "omissão de socorro.",
+   "B": "homicídio simples.",
+   "C": "infanticídio, pois o estado puerperal é elementar e se comunica.",
+   "D": "homicídio qualificado."
+  },
+  "feedbacks": {
+   "A": "Errado: houve participação ativa.",
+   "B": "Errado: aplica-se o infanticídio.",
+   "C": "Correto: art. 30 c/c art. 123.",
+   "D": "Errado: pela doutrina majoritária, comunica-se a elementar."
+  },
+  "fundamento": "CP, art. 123: matar, sob a influência do estado puerperal, o próprio filho, durante o parto ou logo após. Art. 30: as condições pessoais elementares comunicam-se.",
+  "caqui": "É a pergunta preferida da banca: o estado puerperal é elementar, então \"passa\" para quem ajuda."
+ },
+ {
+  "num": 17,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Impunibilidade (art. 31)",
+  "enunciado": "Três amigos combinaram assaltar um posto de gasolina e um deles comprou as máscaras. No dia, desistiram antes de qualquer ato de execução.",
+  "comando": "Assinale a afirmativa correta.",
+  "gabarito": "C",
+  "alternativas": {
+   "A": "Respondem por tentativa de roubo.",
+   "B": "Só quem comprou as máscaras responde.",
+   "C": "O ajuste e o auxílio não são puníveis, pois o crime não chegou a ser tentado.",
+   "D": "Respondem por organização criminosa."
+  },
+  "feedbacks": {
+   "A": "Errado: não houve início de execução.",
+   "B": "Errado: o auxílio também é impunível se o crime não é tentado.",
+   "C": "Correto: art. 31.",
+   "D": "Errado: organização criminosa exige 4 ou mais pessoas e estrutura estável."
+  },
+  "fundamento": "CP, art. 31: o ajuste, a determinação ou instigação e o auxílio, salvo disposição expressa em contrário, não são puníveis, se o crime não chega, pelo menos, a ser tentado.",
+  "caqui": "Combinar sem começar não é crime — salvo quando a própria \"reunião\" já é crime (associação ou organização criminosa)."
+ },
+ {
+  "num": 18,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Associação criminosa x concurso de pessoas",
+  "enunciado": "Quatro pessoas se associaram de forma estável para praticar roubos e, em uma das ações, roubaram um carro juntas.",
+  "comando": "Segundo o STJ, assinale a afirmativa correta.",
+  "gabarito": "B",
+  "alternativas": {
+   "A": "Concurso de pessoas e associação criminosa são a mesma coisa.",
+   "B": "Podem responder por associação criminosa e roubo majorado pelo concurso de pessoas, sem bis in idem.",
+   "C": "Respondem só por roubo majorado, sob pena de bis in idem.",
+   "D": "Respondem só por associação criminosa."
+  },
+  "feedbacks": {
+   "A": "Errado: a associação é estável; o concurso é eventual.",
+   "B": "Correto: são fatos e bens jurídicos distintos.",
+   "C": "Errado: o STJ afasta o bis in idem.",
+   "D": "Errado: o roubo também é punido."
+  },
+  "fundamento": "CP, art. 288: associarem-se 3 ou mais pessoas, para o fim específico de cometer crimes. Art. 157, § 2º, II: roubo majorado pelo concurso de duas ou mais pessoas. O STJ admite a condenação cumulativa, sem bis in idem.",
+  "caqui": "Associação é o \"clube\" permanente; concurso de pessoas é a \"partida\" de cada crime."
+ },
+ {
+  "num": 19,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Crime de mão própria",
+  "enunciado": "Um advogado orientou sua testemunha a mentir em juízo, e ela prestou falso testemunho.",
+  "comando": "Segundo o entendimento do STF e do STJ, o advogado:",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "responde como partícipe do falso testemunho.",
+   "B": "responde por fraude processual.",
+   "C": "responde como coautor.",
+   "D": "não responde, pois o falso testemunho é de mão própria."
+  },
+  "feedbacks": {
+   "A": "Correto: participação no art. 342.",
+   "B": "Errado: a conduta se enquadra como participação no falso testemunho.",
+   "C": "Errado: só a testemunha executa o verbo.",
+   "D": "Errado: o crime de mão própria admite participação."
+  },
+  "fundamento": "CP, art. 342: fazer afirmação falsa, ou negar ou calar a verdade como testemunha. Crimes de mão própria admitem participação, mas, em regra, não coautoria. STF e STJ admitem a participação do advogado.",
+  "caqui": "Só a testemunha pode \"mentir pela própria boca\", mas quem a induz é partícipe."
+ },
+ {
+  "num": 20,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Agravantes no concurso de pessoas",
+  "enunciado": "Rodrigo pagou a Sérgio para que este matasse um desafeto. Sérgio executou o crime.",
+  "comando": "Sobre as agravantes do art. 62 do CP, assinale a afirmativa correta.",
+  "gabarito": "C",
+  "alternativas": {
+   "A": "Não há agravante, pois o motivo é questão de mérito.",
+   "B": "A paga é causa de diminuição.",
+   "C": "Sérgio terá a pena agravada por executar o crime mediante paga ou promessa de recompensa.",
+   "D": "Só Rodrigo terá agravante."
+  },
+  "feedbacks": {
+   "A": "Errado: o art. 62, IV, prevê a agravante.",
+   "B": "Errado: é agravante.",
+   "C": "Correto: art. 62, IV.",
+   "D": "Errado: a agravante do inciso IV é para quem executa mediante paga."
+  },
+  "fundamento": "CP, art. 62: a pena será ainda agravada em relação ao agente que: IV — executa o crime, ou nele participa, mediante paga ou promessa de recompensa. (No homicídio, a paga é qualificadora — art. 121, § 2º, I.)",
+  "caqui": "Matar por dinheiro pesa mais. No homicídio, vira qualificadora."
+ },
+ {
+  "num": 21,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Concurso material",
+  "enunciado": "Pela manhã, Otávio furtou uma bicicleta; à noite, agrediu um desconhecido numa briga de bar, causando-lhe lesão corporal leve.",
+  "comando": "Assinale a afirmativa correta.",
+  "gabarito": "D",
+  "alternativas": {
+   "A": "Há crime único.",
+   "B": "Há concurso formal, com aumento de 1/6.",
+   "C": "Há crime continuado.",
+   "D": "Há concurso material, e as penas são somadas."
+  },
+  "feedbacks": {
+   "A": "Errado: há dois crimes.",
+   "B": "Errado: houve duas condutas.",
+   "C": "Errado: os crimes não são da mesma espécie.",
+   "D": "Correto: art. 69."
+  },
+  "fundamento": "CP, art. 69: quando o agente, mediante mais de uma ação ou omissão, pratica dois ou mais crimes, idênticos ou não, aplicam-se cumulativamente as penas privativas de liberdade em que haja incorrido.",
+  "caqui": "Duas condutas, dois crimes, sem ligação: soma."
+ },
+ {
+  "num": 22,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Reclusão e detenção",
+  "enunciado": "No concurso material, o réu foi condenado a 4 anos de reclusão e a 1 ano de detenção.",
+  "comando": "Sobre a execução das penas, assinale a afirmativa correta.",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "Executa-se primeiro a reclusão.",
+   "B": "Executa-se primeiro a detenção, por ser mais branda.",
+   "C": "As penas são cumpridas simultaneamente.",
+   "D": "O juiz escolhe a ordem livremente."
+  },
+  "feedbacks": {
+   "A": "Correto: art. 69, caput, e art. 76.",
+   "B": "Errado: a lei manda executar primeiro a reclusão.",
+   "C": "Errado: as privativas de liberdade são cumulativas.",
+   "D": "Errado: a ordem é legal."
+  },
+  "fundamento": "CP, art. 69: no caso de aplicação cumulativa de penas de reclusão e de detenção, executa-se primeiro aquela. Art. 76: no concurso de infrações, executar-se-á primeiramente a pena mais grave.",
+  "caqui": "Primeiro a mais pesada: reclusão antes de detenção."
+ },
+ {
+  "num": 23,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Concurso formal próprio",
+  "enunciado": "Dirigindo imprudentemente, Ana atropelou e matou duas pessoas num único acidente, sem intenção de matar.",
+  "comando": "A pena será:",
+  "gabarito": "D",
+  "alternativas": {
+   "A": "a soma das penas dos dois homicídios culposos.",
+   "B": "a de um só homicídio culposo, sem aumento.",
+   "C": "a de um homicídio culposo aumentada de 2/3.",
+   "D": "a de um homicídio culposo aumentada de 1/6, por se tratar de concurso formal próprio com 2 crimes."
+  },
+  "feedbacks": {
+   "A": "Errado: não há desígnios autônomos.",
+   "B": "Errado: há aumento.",
+   "C": "Errado: 2/3 é a fração máxima do continuado.",
+   "D": "Correto: art. 70, 1ª parte; 2 crimes → 1/6 (STJ)."
+  },
+  "fundamento": "CP, art. 70: quando o agente, mediante uma só ação ou omissão, pratica dois ou mais crimes, idênticos ou não, aplica-se-lhe a mais grave das penas cabíveis ou, se iguais, somente uma delas, mas aumentada, em qualquer caso, de um sexto até metade. STJ: 2 crimes → 1/6; 3 → 1/5; 4 → 1/4; 5 → 1/3; 6 ou mais → 1/2.",
+  "caqui": "Uma conduta, dois resultados não queridos: pena de um, com aumento conforme o número de crimes."
+ },
+ {
+  "num": 24,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Concurso formal impróprio",
+  "enunciado": "Querendo matar dois inimigos que estavam lado a lado, Bento disparou um único tiro de fuzil, que atravessou o corpo de ambos e os matou.",
+  "comando": "A pena será:",
+  "gabarito": "D",
+  "alternativas": {
+   "A": "a de um homicídio aumentada de 1/6.",
+   "B": "a de um homicídio aumentada até o triplo.",
+   "C": "a de um homicídio, por ser conduta única.",
+   "D": "a soma das penas dos dois homicídios, por haver desígnios autônomos."
+  },
+  "feedbacks": {
+   "A": "Errado: com desígnios autônomos, não há exasperação.",
+   "B": "Errado: até o triplo é do continuado específico.",
+   "C": "Errado: há dois crimes dolosos.",
+   "D": "Correto: art. 70, 2ª parte (concurso formal impróprio)."
+  },
+  "fundamento": "CP, art. 70, 2ª parte: as penas aplicam-se, entretanto, cumulativamente, se a ação ou omissão é dolosa e os crimes concorrentes resultam de desígnios autônomos.",
+  "caqui": "Uma bala, mas duas vontades de matar: soma das penas."
+ },
+ {
+  "num": 25,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Concurso material benéfico",
+  "enunciado": "Com um único tiro, Davi matou dolosamente seu desafeto (pena de 12 anos) e feriu culposamente um transeunte (pena de 2 meses).",
+  "comando": "Aplicando a exasperação do concurso formal próprio (+1/6), a pena seria de 14 anos; somando as penas, 12 anos e 2 meses. A pena correta é:",
+  "gabarito": "B",
+  "alternativas": {
+   "A": "14 anos e 2 meses.",
+   "B": "12 anos e 2 meses, pois a pena do concurso formal não pode exceder a do concurso material.",
+   "C": "12 anos, sem qualquer acréscimo.",
+   "D": "14 anos, pela regra do concurso formal."
+  },
+  "feedbacks": {
+   "A": "Errado: não se somam as duas regras.",
+   "B": "Correto: art. 70, parágrafo único (concurso material benéfico).",
+   "C": "Errado: há o segundo crime.",
+   "D": "Errado: a exasperação seria pior que a soma."
+  },
+  "fundamento": "CP, art. 70, parágrafo único: não poderá a pena exceder a que seria cabível pela regra do art. 69.",
+  "caqui": "A exasperação existe para beneficiar. Se piorar, usa-se a soma."
+ },
+ {
+  "num": 26,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Crime continuado — fração",
+  "enunciado": "Durante 20 dias, Elias furtou, sempre do mesmo modo e na mesma loja, mercadorias em 7 ocasiões diferentes.",
+  "comando": "Segundo a Súmula 659 do STJ, a pena de um dos furtos será aumentada de:",
+  "gabarito": "B",
+  "alternativas": {
+   "A": "1/3.",
+   "B": "2/3.",
+   "C": "1/2.",
+   "D": "1/6."
+  },
+  "feedbacks": {
+   "A": "Errado: 1/3 é para 5 crimes.",
+   "B": "Correto: 7 ou mais crimes → 2/3.",
+   "C": "Errado: 1/2 é para 6 crimes.",
+   "D": "Errado: 1/6 é para 2 crimes."
+  },
+  "fundamento": "Súmula 659 do STJ: a fração de aumento em razão da prática de crime continuado deve ser fixada de acordo com o número de delitos cometidos, aplicando-se 1/6 pela prática de duas infrações, 1/5 para três, 1/4 para quatro, 1/3 para cinco, 1/2 para seis e 2/3 para sete ou mais infrações.",
+  "caqui": "Escada do continuado: 2→1/6, 3→1/5, 4→1/4, 5→1/3, 6→1/2, 7+→2/3."
+ },
+ {
+  "num": 27,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Crime continuado — requisitos",
+  "enunciado": "Assinale a hipótese que caracteriza crime continuado, segundo o art. 71 do CP e a jurisprudência do STJ.",
+  "comando": "",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "Três furtos praticados na mesma cidade, com o mesmo modo de execução, em intervalos de poucos dias, como parte de um mesmo plano.",
+   "B": "Furtos praticados por criminoso habitual, que faz do crime seu meio de vida.",
+   "C": "Roubo e extorsão praticados contra vítimas diferentes, com 1 ano de intervalo.",
+   "D": "Um estupro e um furto praticados no mesmo dia."
+  },
+  "feedbacks": {
+   "A": "Correto: mesma espécie, tempo, lugar, modo e unidade de desígnios.",
+   "B": "Errado: habitualidade criminosa não é continuidade.",
+   "C": "Errado: roubo e extorsão não são da mesma espécie, e o intervalo é longo.",
+   "D": "Errado: crimes de espécies diferentes."
+  },
+  "fundamento": "CP, art. 71: quando o agente, mediante mais de uma ação ou omissão, pratica dois ou mais crimes da mesma espécie e, pelas condições de tempo, lugar, maneira de execução e outras semelhantes, devem os subsequentes ser havidos como continuação do primeiro. O STJ adota a teoria objetivo-subjetiva (unidade de desígnios) e admite, em regra, intervalo de até 30 dias.",
+  "caqui": "Continuidade é \"série\": mesmo crime, mesmo jeito, mesma região, pouco tempo e um plano só."
+ },
+ {
+  "num": 28,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Crime continuado específico",
+  "enunciado": "Na mesma noite e no mesmo bairro, Fábio, armado, roubou três pedestres diferentes, com o mesmo modo de agir.",
+  "comando": "Assinale a afirmativa correta.",
+  "gabarito": "B",
+  "alternativas": {
+   "A": "A pena de um roubo será aumentada de 1/5, obrigatoriamente.",
+   "B": "Pode ser reconhecida a continuidade específica, com aumento da pena de um dos crimes até o triplo.",
+   "C": "Não é possível a continuidade em crimes com violência.",
+   "D": "As penas devem ser somadas, obrigatoriamente."
+  },
+  "feedbacks": {
+   "A": "Errado: na continuidade específica, o aumento pode chegar ao triplo.",
+   "B": "Correto: crimes dolosos, vítimas diferentes, violência ou grave ameaça.",
+   "C": "Errado: o art. 71, parágrafo único, admite.",
+   "D": "Errado: aplica-se a continuidade específica."
+  },
+  "fundamento": "CP, art. 71, parágrafo único: nos crimes dolosos, contra vítimas diferentes, cometidos com violência ou grave ameaça à pessoa, poderá o juiz aumentar a pena de um só dos crimes, se idênticas, ou a mais grave, se diversas, até o triplo, observadas as regras do parágrafo único do art. 70 e do art. 75.",
+  "caqui": "Com violência e vítimas diferentes, a \"série\" sai mais cara: até o triplo."
+ },
+ {
+  "num": 29,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Súmula 605 do STF",
+  "enunciado": "Um candidato afirma que \"não se admite continuidade delitiva nos crimes contra a vida\", com base na Súmula 605 do STF.",
+  "comando": "A afirmação:",
+  "gabarito": "B",
+  "alternativas": {
+   "A": "está correta apenas para homicídio culposo.",
+   "B": "está superada, pois a reforma de 1984 admitiu a continuidade em crimes dolosos com violência contra vítimas diferentes, com aumento até o triplo.",
+   "C": "está correta, pois o art. 71 veda a continuidade em crimes violentos.",
+   "D": "está correta e reflete o entendimento atual."
+  },
+  "feedbacks": {
+   "A": "Errado: não há essa distinção.",
+   "B": "Correto: art. 71, parágrafo único.",
+   "C": "Errado: o parágrafo único a admite.",
+   "D": "Errado: a súmula está superada."
+  },
+  "fundamento": "Súmula 605 do STF (superada): não se admite continuidade delitiva nos crimes contra a vida. CP, art. 71, parágrafo único (Lei 7.209/84): admite a continuidade nos crimes dolosos com violência ou grave ameaça contra vítimas diferentes.",
+  "caqui": "Súmula antiga, lei nova: vale a lei."
+ },
+ {
+  "num": 30,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Lei mais grave no crime continuado",
+  "enunciado": "Um crime continuado começou em janeiro e terminou em dezembro. Em junho, entrou em vigor lei que aumentou a pena do crime.",
+  "comando": "Segundo o STF, aplica-se:",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "a lei mais grave, pois sua vigência é anterior à cessação da continuidade.",
+   "B": "a lei mais benéfica, por força da retroatividade.",
+   "C": "a lei anterior aos fatos até junho e a nova aos demais.",
+   "D": "a lei anterior, mais benéfica, a todo o período."
+  },
+  "feedbacks": {
+   "A": "Correto: Súmula 711 do STF.",
+   "B": "Errado: não se trata de retroatividade, pois parte dos fatos ocorreu sob a nova lei.",
+   "C": "Errado: o crime continuado é tratado como unidade.",
+   "D": "Errado: a Súmula 711 manda aplicar a mais grave."
+  },
+  "fundamento": "Súmula 711 do STF: a lei penal mais grave aplica-se ao crime continuado ou ao crime permanente, se a sua vigência é anterior à cessação da continuidade ou da permanência.",
+  "caqui": "Se a série ainda estava \"no ar\" quando a lei mudou, vale a lei nova."
+ },
+ {
+  "num": 31,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Prescrição no crime continuado",
+  "enunciado": "Condenado por crime continuado a 1 ano, aumentado de 1/2 pela continuidade (total de 1 ano e 6 meses), o réu quer saber como calcular a prescrição.",
+  "comando": "Segundo o STF, a prescrição regula-se:",
+  "gabarito": "C",
+  "alternativas": {
+   "A": "pela pena total de 1 ano e 6 meses.",
+   "B": "pela pena máxima em abstrato.",
+   "C": "pela pena imposta sem o acréscimo da continuidade (1 ano).",
+   "D": "pela soma das penas de todos os crimes."
+  },
+  "feedbacks": {
+   "A": "Errado: o acréscimo não é computado.",
+   "B": "Errado: após a sentença, usa-se a pena concreta.",
+   "C": "Correto: Súmula 497 do STF.",
+   "D": "Errado: não há soma no continuado."
+  },
+  "fundamento": "Súmula 497 do STF: quando se tratar de crime continuado, a prescrição regula-se pela pena imposta na sentença, não se computando o acréscimo decorrente da continuação. CP, art. 119: a extinção da punibilidade incide sobre a pena de cada crime, isoladamente.",
+  "caqui": "Para a prescrição, olha-se cada crime \"sozinho\", sem o aumento da série."
+ },
+ {
+  "num": 32,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Multas no concurso de crimes",
+  "enunciado": "Em concurso formal, o réu foi condenado por dois crimes, cada um com pena privativa de liberdade e multa.",
+  "comando": "Quanto às multas:",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "são aplicadas distinta e integralmente.",
+   "B": "aplica-se apenas a mais grave, aumentada de 1/6.",
+   "C": "aplica-se apenas uma delas.",
+   "D": "são convertidas em prestação de serviços."
+  },
+  "feedbacks": {
+   "A": "Correto: art. 72.",
+   "B": "Errado: a exasperação não se aplica às multas.",
+   "C": "Errado: aplicam-se todas.",
+   "D": "Errado: não há essa conversão."
+  },
+  "fundamento": "CP, art. 72: no concurso de crimes, as penas de multa são aplicadas distinta e integralmente.",
+  "caqui": "Multa não tem \"desconto\" do concurso: cada crime, sua multa."
+ },
+ {
+  "num": 33,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Erro na execução",
+  "enunciado": "Querendo matar seu pai, Gustavo atirou, errou e matou um vizinho que passava. ",
+  "comando": "Segundo o CP, Gustavo responde:",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "como se tivesse matado o pai, inclusive com a agravante de crime contra ascendente.",
+   "B": "por homicídio do vizinho, sem a agravante de crime contra ascendente.",
+   "C": "por homicídio culposo.",
+   "D": "por tentativa contra o pai e homicídio culposo contra o vizinho, em concurso material."
+  },
+  "feedbacks": {
+   "A": "Correto: arts. 73 e 20, § 3º.",
+   "B": "Errado: consideram-se as condições da vítima pretendida.",
+   "C": "Errado: houve dolo de matar.",
+   "D": "Errado: a lei manda considerar a vítima virtual."
+  },
+  "fundamento": "CP, art. 73: quando, por acidente ou erro no uso dos meios de execução, o agente, ao invés de atingir a pessoa que pretendia ofender, atinge pessoa diversa, responde como se tivesse praticado o crime contra aquela, atendendo-se ao disposto no § 3º do art. 20. No caso de ser também atingida a pessoa que o agente pretendia ofender, aplica-se a regra do art. 70.",
+  "caqui": "Errou o alvo? A lei finge que acertou: vale a vítima que ele queria atingir."
+ },
+ {
+  "num": 34,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Resultado diverso do pretendido",
+  "enunciado": "Querendo quebrar a vitrine de uma loja, Hugo atirou uma pedra, errou e atingiu a cabeça de um pedestre, que sofreu lesões.",
+  "comando": "Hugo responde por:",
+  "gabarito": "D",
+  "alternativas": {
+   "A": "lesão corporal dolosa.",
+   "B": "dano tentado e lesão corporal dolosa.",
+   "C": "nada, pois não quis ferir ninguém.",
+   "D": "lesão corporal culposa, pois sobreveio resultado diverso do pretendido."
+  },
+  "feedbacks": {
+   "A": "Errado: a lesão foi culposa.",
+   "B": "Errado: não houve dolo de lesionar.",
+   "C": "Errado: há crime culposo.",
+   "D": "Correto: art. 74 (aberratio criminis)."
+  },
+  "fundamento": "CP, art. 74: fora dos casos do artigo anterior, quando, por acidente ou erro na execução do crime, sobrevém resultado diverso do pretendido, o agente responde por culpa, se o fato é previsto como crime culposo; se ocorre também o resultado pretendido, aplica-se a regra do art. 70.",
+  "caqui": "Queria atingir coisa, atingiu pessoa: responde pelo que causou, a título de culpa."
+ },
+ {
+  "num": 35,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Limite de cumprimento",
+  "enunciado": "Por crimes praticados em 2023, Ivo foi condenado a penas que somam 85 anos.",
+  "comando": "Segundo o CP, assinale a afirmativa correta.",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "O tempo de cumprimento não pode ser superior a 40 anos, e as penas serão unificadas para atender a esse limite.",
+   "B": "Ivo cumprirá no máximo 30 anos.",
+   "C": "O limite é de 50 anos.",
+   "D": "Ivo cumprirá os 85 anos."
+  },
+  "feedbacks": {
+   "A": "Correto: art. 75, caput e § 1º (Lei 13.964/2019).",
+   "B": "Errado: 30 anos era o limite antes do Pacote Anticrime.",
+   "C": "Errado: o limite é 40 anos.",
+   "D": "Errado: há limite constitucional e legal."
+  },
+  "fundamento": "CP, art. 75: o tempo de cumprimento das penas privativas de liberdade não pode ser superior a 40 anos. § 1º: quando o agente for condenado a penas privativas de liberdade cuja soma seja superior a 40 anos, devem elas ser unificadas para atender ao limite máximo deste artigo.",
+  "caqui": "Desde o Pacote Anticrime: 40 anos — para crimes praticados a partir de 23/01/2020."
+ },
+ {
+  "num": 36,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Unificação e benefícios",
+  "enunciado": "Condenado a penas que somam 90 anos, unificadas em 40, o preso pede que o cálculo do livramento condicional seja feito sobre os 40 anos.",
+  "comando": "Segundo o STF:",
+  "gabarito": "A",
+  "alternativas": {
+   "A": "a pena unificada para atender ao limite não é considerada para benefícios como livramento condicional ou regime mais favorável.",
+   "B": "o livramento é vedado em qualquer hipótese.",
+   "C": "o cálculo deve usar a média entre as duas penas.",
+   "D": "o pedido deve ser deferido, pois a pena unificada é a pena a cumprir."
+  },
+  "feedbacks": {
+   "A": "Correto: Súmula 715 do STF.",
+   "B": "Errado: o benefício é possível, calculado sobre a pena total.",
+   "C": "Errado: não há essa regra.",
+   "D": "Errado: a Súmula 715 afasta esse cálculo."
+  },
+  "fundamento": "Súmula 715 do STF: a pena unificada para atender ao limite de 30 anos de cumprimento, determinado pelo art. 75 do Código Penal, não é considerada para a concessão de outros benefícios, como o livramento condicional ou regime mais favorável de execução. (Hoje, o limite é de 40 anos.)",
+  "caqui": "A unificação é só um \"teto\" de tempo de prisão, não um novo número para calcular benefícios."
+ },
+ {
+  "num": 37,
+  "exame": "Inédita — estilo FGV",
+  "titulo": "Suspensão condicional do processo e concurso",
+  "enunciado": "O réu responde por dois crimes em concurso material, cada um com pena mínima de 8 meses.",
+  "comando": "Sobre a suspensão condicional do processo (art. 89 da Lei 9.099/95):",
+  "gabarito": "D",
+  "alternativas": {
+   "A": "é cabível, a critério do juiz.",
+   "B": "é cabível apenas para um dos crimes.",
+   "C": "é cabível, pois cada crime isolado tem pena mínima inferior a 1 ano.",
+   "D": "não é cabível, pois o somatório das penas mínimas ultrapassa 1 ano."
+  },
+  "feedbacks": {
+   "A": "Errado: há vedação jurisprudencial.",
+   "B": "Errado: considera-se o conjunto.",
+   "C": "Errado: considera-se o somatório.",
+   "D": "Correto: Súmula 243 do STJ."
+  },
+  "fundamento": "Súmula 243 do STJ: o benefício da suspensão do processo não é aplicável em relação às infrações penais cometidas em concurso material, concurso formal ou continuidade delitiva, quando a pena mínima cominada, seja pelo somatório, seja pela incidência da majorante, ultrapassar o limite de um ano. Súmula 723 do STF, no mesmo sentido, para o crime continuado.",
+  "caqui": "No concurso, olha-se a \"conta toda\": 8 + 8 meses = 16 meses, acima de 1 ano."
+ }
+];
+let cur = 0;
+const st = {};
+function cl(s){return esc(s.replace(/^(Correto|Errado):\s*/,'').replace(/^./,c=>c.toUpperCase()));}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function init(){
+  const nv=document.getElementById('nv'), qs=document.getElementById('qs');
+  QUESTOES.forEach((q,i)=>{
+    const b=document.createElement('button'); b.textContent=q.num; b.onclick=()=>go(i); nv.appendChild(b);
+    qs.appendChild(bc(q,i));
+  });
+  go(0); us();
+}
+function bc(q,i){
+  const d=document.createElement('div'); d.className='qc'; d.id='q'+i;
+  let h='<div class="qh"><span class="qtag">Questão '+q.num+'</span><span class="qex">'+esc(q.exame)+'</span></div>';
+  h+='<div class="qt">'+esc(q.titulo)+'</div>';
+  h+='<div class="en">'+esc(q.enunciado)+'</div><div class="cm">'+esc(q.comando)+'</div>';
+  ['A','B','C','D'].forEach(l=>{
+    h+='<button class="alt" data-l="'+l+'" onclick="resp('+i+',\''+l+'\')"><span class="lt">'+l+'</span><span>'+esc(q.alternativas[l])+'</span></button>';
+  });
+  h+='<div class="fb" id="fb'+i+'"></div>';
+  h+='<div class="acts" id="ac'+i+'"><button class="b1" onclick="tF('+i+')">Ver fundamento legal</button>';
+  h+='<button class="b2" onclick="tX('+i+')">Explicação do Prof. Caqui</button>';
+  h+='<button class="b3" onclick="rst('+i+')">↺ Tentar novamente</button>';
+  h+='<span class="gab">Gabarito: <b>'+q.gabarito+'</b></span></div>';
+  h+='<div class="fu" id="fu'+i+'"><h4>📖 Fundamento legal</h4>'+esc(q.fundamento)+'</div>';
+  h+='<div class="ca" id="ca'+i+'"><h4>🍊 Explicação didática do Professor Caqui</h4>'+esc(q.caqui)+'</div>';
+  d.innerHTML=h; return d;
+}
+function resp(i,l){
+  if(st[i]) return;
+  const q=QUESTOES[i], ok=l===q.gabarito; st[i]=ok?'ok':'no';
+  document.querySelectorAll('#q'+i+' .alt').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.l===q.gabarito) b.classList.add('cor');
+    else if(b.dataset.l===l) b.classList.add('err');
+  });
+  const fb=document.getElementById('fb'+i);
+  fb.className='fb '+(ok?'ok':'no');
+  fb.innerHTML=(ok?'<b>✓ Correto!</b> ':'<b>✗ Incorreto.</b> ')+cl(q.feedbacks[l])+(ok?'':' <br><b>Gabarito: '+q.gabarito+'</b> — '+cl(q.feedbacks[q.gabarito]));
+  document.getElementById('ac'+i).classList.add('on');
+  nav(); us();
+}
+function tF(i){document.getElementById('fu'+i).classList.toggle('on');}
+function tX(i){document.getElementById('ca'+i).classList.toggle('on');}
+function rst(i){
+  delete st[i];
+  document.querySelectorAll('#q'+i+' .alt').forEach(b=>{b.disabled=false;b.classList.remove('cor','err');});
+  document.getElementById('fb'+i).className='fb';
+  document.getElementById('ac'+i).classList.remove('on');
+  document.getElementById('fu'+i).classList.remove('on');
+  document.getElementById('ca'+i).classList.remove('on');
+  nav(); us();
+}
+function go(i){
+  if(i<0||i>=QUESTOES.length) return;
+  document.querySelectorAll('.qc').forEach(e=>e.classList.remove('vis'));
+  document.getElementById('q'+i).classList.add('vis');
+  cur=i; nav(); upd();
+}
+function nav(){
+  document.querySelectorAll('#nv button').forEach((b,i)=>{
+    b.className=(i===cur?'act ':'')+(st[i]||'');
+  });
+}
+function upd(){
+  document.getElementById('pi').textContent=(cur+1)+' de '+QUESTOES.length;
+  document.getElementById('bp').disabled=cur===0;
+  document.getElementById('bn').disabled=cur===QUESTOES.length-1;
+}
+function us(){
+  const v=Object.values(st), a=v.filter(x=>x==='ok').length, n=QUESTOES.length;
+  document.getElementById('sR').textContent=v.length;
+  document.getElementById('sA').textContent=a;
+  document.getElementById('sE').textContent=v.length-a;
+  document.getElementById('pb').style.width=(v.length/n*100)+'%';
+  document.getElementById('pt').textContent=v.length+' de '+n+' respondidas';
+}
+init();
+</script>
+</body>
+</html>
